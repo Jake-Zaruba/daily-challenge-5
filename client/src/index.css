@@ -1,0 +1,146 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+a {
+  font-weight: 500;
+  color: #213547;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #213547;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  /* place-items: center; */
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #213547;
+}
+/* button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+} */
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #213547;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-task-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+}
+
+input {
+  border: none;
+  background-color: #2135472e;
+  border-radius: 0.3rem;
+  padding: 0.4rem;
+}
+
+.add-task-btn {
+  height: 2rem;
+  width: 3rem;
+  margin-left: 0.6rem;
+  background-color: #d2d2d2;
+}
+
+.todo-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  height: 3.4rem;
+  width: 25rem;
+  border: 1px solid #213547;
+  border-radius: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.todo-container button {
+  height: 2.4rem;
+  width: 2.4rem;
+  text-align: center;
+  margin-right: 0.6rem;
+  background-color: #d2d2d2;
+  color: white;
+}
+
+.todo-container h1 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-left: 0.6rem;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+ion-icon {
+  color: #213547;
+  height: 1.4rem;
+  width: 1.4rem;
+  --ionicon-stroke-width: 38px;
+  margin-top: 0.2rem;
+}
