@@ -1,19 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Todo from "./components/Todo";
 
 function App() {
   const [task, setTask] = useState("");
   const [taskList, setTaskList] = useState([]);
-  //?????
-  const todoList = async () => {
-    await fetch("http://localhost:5003/todos").then((res) =>
-      res.json().then((data) => {
-        data.map((item) => {
-          return <div>{item}</div>;
-        });
-      })
-    );
+
+  const getTodos = async () => {
+    const response = await fetch("http://localhost:5003/todos");
+    const data = await response.json();
+    setTaskList(data);
   };
+  useEffect(() => {
+    getTodos();
+  }, []);
+  console.log(taskList);
 
   async function addTask() {
     if (!task) {
@@ -21,11 +21,11 @@ function App() {
     } else {
       const taskItem = {
         description: task,
-        isComplete: false,
-        id: Math.floor(Math.random() * 1000),
+        is_complete: false,
+        // id: Math.floor(Math.random() * 1000),
       };
-      setTaskList((prev) => [...prev, taskItem]);
       const body = taskItem;
+      setTaskList((prev) => [...prev, taskItem]);
       const response = await fetch("http://localhost:5003/todos", {
         method: "POST",
         headers: {
@@ -37,21 +37,42 @@ function App() {
     }
   }
 
-  function deleteTask(id) {
-    const newArray = taskList.filter((item) => {
-      return item.id !== id;
-    });
-    setTaskList(newArray);
+  //DELETE TASK
+
+  async function deleteTask(id) {
+    try {
+      const deleteTodo = await fetch(`http://localhost:5003/todos/${id}`, {
+        method: "DELETE",
+      });
+      console.log("todo deleted");
+      getTodos();
+    } catch (err) {
+      console.error(err.message);
+    }
   }
 
-  function completeTask(id) {
-    const newArray = taskList.map((item) => {
-      if (item.id === id) {
-        return { ...item, isComplete: !item.isComplete };
+  //COMPLETE TASK
+
+  async function completeTask(id) {
+    const filteredTask = taskList.map((item) => {
+      if (item.todo_id === id) {
+        return { ...item, is_complete: !is_complete };
       }
       return item;
     });
-    setTaskList(newArray);
+    const toggleComplete = {
+      description: `${filteredTask.description}`,
+      is_complete: true,
+    };
+    const body = toggleComplete;
+    const completeTodo = await fetch(`http://localhost:5003/todos/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    // getTodos();
   }
 
   return (
@@ -73,14 +94,14 @@ function App() {
       <ul>
         {taskList.map((item) => {
           return (
-            <li key={item.id}>
+            <li key={item.todo_id}>
               {
                 <Todo
                   title={item.description}
-                  id={item.id}
+                  id={item.todo_id}
                   deleteTask={deleteTask}
                   completeTask={completeTask}
-                  isComplete={item.isComplete}
+                  isComplete={item.is_complete}
                 />
               }
             </li>

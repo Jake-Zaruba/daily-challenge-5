@@ -12,10 +12,10 @@ app.use(express.json());
 
 app.post("/todos", async (req, res) => {
   try {
-    const { description } = req.body;
+    const { description, is_complete } = req.body;
     const newTodo = await pool.query(
-      "INSERT INTO todo (description) VALUES($1) RETURNING *",
-      [description]
+      "INSERT INTO todo (description, is_complete) VALUES($1, $2) RETURNING *",
+      [description, is_complete]
     );
     res.json(newTodo.rows[0]);
   } catch (err) {
@@ -59,6 +59,21 @@ app.put("/todos/:id", async (req, res) => {
       [description, id]
     );
     res.json("Todo was updated");
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+//complete a todo
+
+app.put("/todos/:id", async (req, res) => {
+  try {
+    const { description } = req.body;
+    const { id } = req.params;
+    const updateTodo = await pool.query(
+      "UPDATE todo SET description = $1, is_complete = NOT is_complete WHERE todo_id = $2",
+      [description, id]
+    );
   } catch (err) {
     console.log(err.message);
   }
