@@ -18,7 +18,7 @@ export default function Todo({
 
   return (
     <div className="todo-container">
-      <b>{id}</b>
+      {/* <b>{id}</b> */}
       <h1 style={isComplete ? completedTaskTitle : null}>{title}</h1>
       <div className="btn-container">
         <button

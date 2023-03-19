@@ -54,25 +54,13 @@ function App() {
   //COMPLETE TASK
 
   async function completeTask(id) {
-    const filteredTask = taskList.map((item) => {
-      if (item.todo_id === id) {
-        return { ...item, is_complete: !is_complete };
-      }
-      return item;
-    });
-    const toggleComplete = {
-      description: `${filteredTask.description}`,
-      is_complete: true,
-    };
-    const body = toggleComplete;
     const completeTodo = await fetch(`http://localhost:5003/todos/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
     });
-    // getTodos();
+    getTodos();
   }
 
   return (
