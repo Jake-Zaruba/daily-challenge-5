@@ -4,6 +4,16 @@ import Todo from "./components/Todo";
 function App() {
   const [task, setTask] = useState("");
   const [taskList, setTaskList] = useState([]);
+  //?????
+  const todoList = async () => {
+    await fetch("http://localhost:5003/todos").then((res) =>
+      res.json().then((data) => {
+        data.map((item) => {
+          return <div>{item}</div>;
+        });
+      })
+    );
+  };
 
   async function addTask() {
     if (!task) {
