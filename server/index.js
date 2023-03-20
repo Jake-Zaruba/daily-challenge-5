@@ -2,11 +2,13 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
+
 //middleware
+
 app.use(cors());
 app.use(express.json());
 
-//ROUTES
+//ROUTES-----------------
 
 //create todo
 
@@ -27,7 +29,9 @@ app.post("/todos", async (req, res) => {
 
 app.get("/todos", async (req, res) => {
   try {
-    const allTodos = await pool.query("SELECT * FROM todo");
+    const allTodos = await pool.query(
+      "SELECT * FROM todo ORDER BY todo_id ASC"
+    );
     res.json(allTodos.rows);
   } catch (err) {
     console.log(err.message);

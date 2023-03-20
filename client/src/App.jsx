@@ -5,6 +5,8 @@ function App() {
   const [task, setTask] = useState("");
   const [taskList, setTaskList] = useState([]);
 
+  //GET TASKS
+
   const getTodos = async () => {
     const response = await fetch("http://localhost:5003/todos");
     const data = await response.json();
@@ -12,8 +14,10 @@ function App() {
   };
   useEffect(() => {
     getTodos();
+    console.log(taskList);
   }, []);
-  console.log(taskList);
+
+  //ADD TASK
 
   async function addTask() {
     if (!task) {
@@ -33,6 +37,7 @@ function App() {
         },
         body: JSON.stringify(body),
       });
+      getTodos();
       setTask("");
     }
   }
@@ -44,7 +49,6 @@ function App() {
       const deleteTodo = await fetch(`http://localhost:5003/todos/${id}`, {
         method: "DELETE",
       });
-      console.log("todo deleted");
       getTodos();
     } catch (err) {
       console.error(err.message);
@@ -54,13 +58,17 @@ function App() {
   //COMPLETE TASK
 
   async function completeTask(id) {
-    const completeTodo = await fetch(`http://localhost:5003/todos/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    getTodos();
+    try {
+      const completeTodo = await fetch(`http://localhost:5003/todos/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      getTodos();
+    } catch (err) {
+      console.error(err.message);
+    }
   }
 
   return (
@@ -82,7 +90,7 @@ function App() {
       <ul>
         {taskList.map((item) => {
           return (
-            <li key={item.todo_id}>
+            <li key={item?.todo_id}>
               {
                 <Todo
                   title={item.description}
